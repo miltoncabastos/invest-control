@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -85,7 +85,9 @@ namespace InvestControl.Application.Services
                     {
                         corretora = new Corretora()
                         {
-                            NomeFantasia = transacaoCsv.Corretora
+                            NomeFantasia = transacaoCsv.Corretora,
+                            RazaoSocial = String.Empty,
+                            CNPJ = String.Empty
                         };
                         var newCorretora = _context.Add(corretora);
                         corretoras.Add(newCorretora.Entity);

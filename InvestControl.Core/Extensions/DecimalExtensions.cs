@@ -1,16 +1,18 @@
+using System;
 using System.Globalization;
 
-namespace InvestControl.Core.Extensions;
-
-public static class DecimalExtensions
+namespace InvestControl.Core.Extensions
 {
-    public static string ToStringPtBr(this decimal value)
+    public static class DecimalExtensions
     {
-        return value.ToString(CultureInfo.CreateSpecificCulture("pt-BR"));
-    }
+        public static string ToStringPtBr(this decimal value)
+        {
+            return value.ToString(CultureInfo.CreateSpecificCulture("pt-BR"));
+        }
     
-    public static decimal Round2Decimals(this decimal valorTotal)
-    {
-        return Math.Round(valorTotal, 3);
+        public static decimal Round2Decimals(this decimal valorTotal)
+        {
+            return Math.Round(valorTotal, 3);
+        }
     }
 }

@@ -13,7 +13,7 @@
 - Ao rodar a aplicação, você irá se deparar com a tela do Swagger, no qual deixará disponível as API existentes no sistema
 - Primeiro, você precisa rodar a api UploadInformations, ela irá fazer a importação dos seus arquivos para um banco de dados em memória, você terá que rodar sempre que iniciar a aplicação.
 - Agora, com sua base importada, é só escolher qual funcionalidade quer, na seção de Imposto de Renda.
-- Você também pode conferir os dados que estão na base em Corretora, Eventos e Transacao
+- Você também pode conferir os dados que estão na base na seção de Dados, como corretoras, eventos e transações
 
 ## Stack ##
 - C# 10

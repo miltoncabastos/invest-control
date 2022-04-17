@@ -12,7 +12,7 @@ namespace InvestControl.Infra.Repository
         {
         }
 
-        public IEnumerable<Evento> ObterTransacoesAteAno(int ano)
+        public IEnumerable<Evento> ObterAteAno(int ano)
         {
             return QueryReadOnly().Where(x => x.Data.Year <= ano);
         }

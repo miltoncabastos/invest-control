@@ -7,6 +7,5 @@
         public decimal Quantidade { get; set; }
         public decimal PrecoMedio { get; set; }
         public decimal ValorTotal { get; set; }
-        public decimal LucroPrejuizo { get; set; }
     }
 }

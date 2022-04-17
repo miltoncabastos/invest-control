@@ -6,6 +6,6 @@ namespace InvestControl.Domain.Repository
 {
     public interface ITransacaoRepository : IBaseRepository<Transacao>
     {
-        public IEnumerable<Transacao> ObterTransacoesAteAno(int ano);
+        public IEnumerable<Transacao> ObterAteAno(int ano);
     }
 }

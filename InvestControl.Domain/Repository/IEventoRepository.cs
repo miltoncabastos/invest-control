@@ -5,6 +5,6 @@ namespace InvestControl.Domain.Repository
 {
     public interface IEventoRepository : IBaseRepository<Evento>
     {
-        public IEnumerable<Evento> ObterTransacoesAteAno(int ano);
+        public IEnumerable<Evento> ObterAteAno(int ano);
     }
 }

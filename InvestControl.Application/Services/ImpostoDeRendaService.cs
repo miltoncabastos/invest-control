@@ -47,7 +47,6 @@ namespace InvestControl.Application.Services
                 var quantidadeTotal = decimal.Zero;
                 var valorTotal = decimal.Zero;
                 var valorPrecoMedio = decimal.Zero;
-                var valorLucroPrejuizoTotal = decimal.Zero;
 
                 foreach (var operacao in transacoesPorAtivo.OrderBy(t => t.DataOperacao))
                 {
@@ -55,18 +54,12 @@ namespace InvestControl.Application.Services
                     {
                         quantidadeTotal += operacao.Quantidade;
                         valorTotal += operacao.Quantidade * operacao.PrecoUnitario;
-
                         valorPrecoMedio = valorTotal / quantidadeTotal;
                     }
                     else if (operacao.TipoOperacao == TipoOperacao.Venda)
                     {
                         quantidadeTotal -= operacao.Quantidade;
                         valorTotal -= operacao.Quantidade * valorPrecoMedio;
-
-                        var totalDaVenda = operacao.Quantidade * operacao.PrecoUnitario;
-                        var totalDaVendaBaseMedio = operacao.Quantidade * valorPrecoMedio;
-
-                        valorLucroPrejuizoTotal += totalDaVenda - totalDaVendaBaseMedio;
                     }
                 }
 
@@ -76,12 +69,11 @@ namespace InvestControl.Application.Services
 
                 lucroPrejuizoLista.Add(new CustodiaCompletaDto
                 {
-                    CodigoAtivo = transacoesPorAtivo.Key,
                     Categoria = categoria,
+                    CodigoAtivo = transacoesPorAtivo.Key,
                     Quantidade = quantidadeTotal,
                     ValorTotal = valorTotal.Round2Decimals(),
                     PrecoMedio = valorPrecoMedio.Round2Decimals(),
-                    LucroPrejuizo = valorLucroPrejuizoTotal.Round2Decimals()
                 });
             }
 
@@ -159,8 +151,8 @@ namespace InvestControl.Application.Services
             if (ano <= 0)
                 ano = DateTime.Today.Year;
 
-            var eventos = _eventoRepository.ObterTransacoesAteAno(ano).ToList();
-            var transacoes = _transacaoRepository.ObterTransacoesAteAno(ano).ToList();
+            var eventos = _eventoRepository.ObterAteAno(ano).ToList();
+            var transacoes = _transacaoRepository.ObterAteAno(ano).ToList();
 
             TratarBaseComEventos(eventos, transacoes);
 
@@ -174,6 +166,11 @@ namespace InvestControl.Application.Services
                 var transacoesDoEvento = transacoes
                     .Where(x => x.CodigoAtivo.ToUpper().Equals(evento.CodigoOrigem.ToUpper()) &&
                                 x.DataOperacao < evento.Data).ToList();
+
+                if(!transacoesDoEvento.Any())
+                {
+                    continue;
+                }
 
                 if (evento.TipoEvento == TipoEvento.Conversao)
                 {
