@@ -3,7 +3,7 @@ using InvestControl.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using InvestControl.Core.Extensions;
+using InvestControl.Application.Services.Interfaces;
 using InvestControl.Domain.Entity;
 using InvestControl.Domain.Entity.Enums;
 using InvestControl.Domain.Helpers;
@@ -26,21 +26,14 @@ namespace InvestControl.Application.Services
         {
             return CalcularImpostoAnual(ano)
                 .Where(x => x.Quantidade > 0)
-                .Select(x => new CustodiaDto
-                {
-                    Categoria = x.Categoria,
-                    CodigoAtivo = x.CodigoAtivo,
-                    Quantidade = x.Quantidade.ToStringPtBr(),
-                    PrecoMedio = x.PrecoMedio.ToStringPtBr(),
-                    ValorTotal = x.ValorTotal.ToStringPtBr()
-                }).ToList();
+                .ToList();
         }
 
-        private IList<CustodiaCompletaDto> CalcularImpostoAnual(int ano)
+        private IList<CustodiaDto> CalcularImpostoAnual(int ano)
         {
             var transacoes = ObterTransacoes(ano);
 
-            var lucroPrejuizoLista = new List<CustodiaCompletaDto>();
+            var lucroPrejuizoLista = new List<CustodiaDto>();
 
             foreach (var transacoesPorAtivo in transacoes.GroupBy(t => t.CodigoAtivo.TrimEnd('F')))
             {
@@ -67,13 +60,13 @@ namespace InvestControl.Application.Services
                     ? transacoesPorAtivo.FirstOrDefault()?.TipoCategoria.ToString()
                     : "Sem Categoria";
 
-                lucroPrejuizoLista.Add(new CustodiaCompletaDto
+                lucroPrejuizoLista.Add(new CustodiaDto
                 {
                     Categoria = categoria,
                     CodigoAtivo = transacoesPorAtivo.Key,
                     Quantidade = quantidadeTotal,
-                    ValorTotal = valorTotal.Round2Decimals(),
-                    PrecoMedio = valorPrecoMedio.Round2Decimals(),
+                    ValorTotal = valorTotal,
+                    PrecoMedio = valorPrecoMedio,
                 });
             }
 
@@ -95,7 +88,7 @@ namespace InvestControl.Application.Services
                     var quantidadeTotal = Decimal.Zero;
                     var valorTotal = Decimal.Zero;
                     var precoMedio = Decimal.Zero;
-                    
+
                     foreach (var transacao in ativos.OrderBy(x => x.DataOperacao))
                     {
                         if (transacao.TipoOperacao == TipoOperacao.Compra)
@@ -167,7 +160,7 @@ namespace InvestControl.Application.Services
                     .Where(x => x.CodigoAtivo.ToUpper().Equals(evento.CodigoOrigem.ToUpper()) &&
                                 x.DataOperacao < evento.Data).ToList();
 
-                if(!transacoesDoEvento.Any())
+                if (!transacoesDoEvento.Any())
                 {
                     continue;
                 }

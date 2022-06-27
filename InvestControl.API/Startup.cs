@@ -1,4 +1,5 @@
 using InvestControl.Application.Services;
+using InvestControl.Application.Services.Interfaces;
 using InvestControl.Domain.Repository;
 using InvestControl.Infra.Context;
 using InvestControl.Infra.Repository;

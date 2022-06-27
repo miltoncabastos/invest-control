@@ -1,4 +1,4 @@
-namespace InvestControl.Application.Services
+namespace InvestControl.Application.Services.Interfaces
 {
     public interface IUploadInformationsService
     {

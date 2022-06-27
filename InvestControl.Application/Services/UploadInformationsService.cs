@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
+using InvestControl.Application.Services.Interfaces;
 using InvestControl.Domain.Entity;
 using InvestControl.Domain.Entity.Csv;
 using InvestControl.Domain.Entity.Enums;

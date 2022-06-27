@@ -1,7 +1,7 @@
 ﻿using InvestControl.Application.DTOs;
 using System.Collections.Generic;
 
-namespace InvestControl.Application.Services
+namespace InvestControl.Application.Services.Interfaces
 {
     public interface IImpostoDeRendaService
     {

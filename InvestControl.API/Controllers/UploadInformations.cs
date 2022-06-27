@@ -1,4 +1,4 @@
-using InvestControl.Application.Services;
+using InvestControl.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvestControl.API.Controllers
