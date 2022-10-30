@@ -137,17 +137,20 @@ namespace InvestControl.Application.Services
             if (categoria.Equals(TipoCategoria.Acao.GetDescription()))
                 return TipoCategoria.Acao;
 
-            if (categoria.Equals(TipoCategoria.BDR.GetDescription()))
-                return TipoCategoria.BDR;
+            if (categoria.Equals(TipoCategoria.Bdr.GetDescription()))
+                return TipoCategoria.Bdr;
 
-            if (categoria.Equals(TipoCategoria.ETF.GetDescription()))
-                return TipoCategoria.ETF;
+            if (categoria.Equals(TipoCategoria.Etf.GetDescription()))
+                return TipoCategoria.Etf;
 
-            if (categoria.Equals(TipoCategoria.ETFExterior.GetDescription()))
-                return TipoCategoria.ETFExterior;
+            if (categoria.Equals(TipoCategoria.EtfExterior.GetDescription()))
+                return TipoCategoria.EtfExterior;
 
             if (categoria.Equals(TipoCategoria.Stocks.GetDescription()))
                 return TipoCategoria.Stocks;
+            
+            if (categoria.Equals(TipoCategoria.TesouroDireto.GetDescription()))
+                return TipoCategoria.TesouroDireto;
 
             throw new ArgumentException("Tipo de categoria inválida");
         }

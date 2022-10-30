@@ -31,7 +31,15 @@ namespace InvestControl.API.Controllers
         {
             var transacoes = context.Set<Transacao>().ToList();
             return Ok(transacoes);
-        }        
+        }      
+        
+        [HttpGet]
+        [Route("obter-rendimentos")]
+        public IActionResult ObterTodosOsRendimentos([FromServices] InvestControlContext context)
+        {
+            var rendimentos = context.Set<Rendimento>().ToList();
+            return Ok(rendimentos);
+        }      
     }
     
 }

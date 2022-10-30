@@ -12,6 +12,7 @@ namespace InvestControl.Infra.Context
         DbSet<Corretora> Corretoras { get; set; }
         DbSet<Transacao> Transacoes { get; set; }
         DbSet<Evento> Eventos { get; set; }
+        DbSet<Rendimento> Rendimentos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,6 +49,13 @@ namespace InvestControl.Infra.Context
             modelBuilder.Entity<Evento>().Property(e => e.Valor).IsRequired();
             modelBuilder.Entity<Evento>().Property(e => e.Data).IsRequired();
             modelBuilder.Entity<Evento>().Property(e => e.TipoEvento).IsRequired();
+
+            modelBuilder.Entity<Rendimento>().ToTable("Rendimento");
+            modelBuilder.Entity<Rendimento>().HasKey(e => e.Id);
+            modelBuilder.Entity<Rendimento>().Property(e => e.CodigoAtivo).IsRequired();
+            modelBuilder.Entity<Rendimento>().Property(e => e.TipoCategoria).IsRequired();
+            modelBuilder.Entity<Rendimento>().Property(e => e.Data).IsRequired();
+            modelBuilder.Entity<Rendimento>().Property(e => e.Valor).IsRequired();
         }
     }
 }

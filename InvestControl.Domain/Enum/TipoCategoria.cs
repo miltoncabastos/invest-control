@@ -4,6 +4,9 @@ namespace InvestControl.Domain.Enum
 {
     public enum TipoCategoria
     {
+        [Description("Não definido")]
+        NaoDefinido,
+        
         [Description("Fundos imobiliários")]
         FundosImobiliarios,
 
@@ -11,15 +14,18 @@ namespace InvestControl.Domain.Enum
         Acao,
 
         [Description("BDR")]
-        BDR,
+        Bdr,
         
         [Description("ETF")]
-        ETF,
+        Etf,
         
         [Description("ETF Exterior")]
-        ETFExterior,
+        EtfExterior,
         
         [Description("Stocks")]
         Stocks,
+        
+        [Description("Tesouro direto")]
+        TesouroDireto
     }
 }

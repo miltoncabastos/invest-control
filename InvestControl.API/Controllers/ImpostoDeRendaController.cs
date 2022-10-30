@@ -15,17 +15,24 @@ namespace InvestControl.API.Controllers
         }
 
         [HttpGet]
-        [Route("imposto-anual-custodia/{ano}")]
-        public IActionResult ImpostoDeRendaAnualCustodia(int ano)
+        [Route("custodia/{ano}")]
+        public IActionResult Custodia(int ano)
         {
             return Ok(_impostoDeRendaService.CalcularCustodiaAnual(ano));
         }
 
         [HttpGet]
-        [Route("imposto-mesal-lucros-prejuizos/{ano}")]
+        [Route("calcular-lucros-prejuizos-mensais/{ano}")]
         public IActionResult ImpostoDeRendaMensalLucrosEPrejuizos(int ano)
         {
-            return Ok(_impostoDeRendaService.CalcularLucroEPrejuizoMensal(ano));
+            return Ok(_impostoDeRendaService.CalcularLucroOuPrejuizoMensal(ano));
+        }
+        
+        [HttpGet]
+        [Route("calcular-imposto-pagar-mensal/{ano}")]
+        public IActionResult CalcularImpostoAPagarMensal(int ano)
+        {
+            return Ok(_impostoDeRendaService.CalcularImpostoAPagarMensal(ano));
         }
 
     }

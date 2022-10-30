@@ -8,6 +8,7 @@ using InvestControl.Domain.Entity;
 using InvestControl.Domain.Entity.Enums;
 using InvestControl.Domain.Helpers;
 using InvestControl.Domain.Repository;
+using LucroPrejuizoDto = InvestControl.Application.DTOs.LucroPrejuizoDto;
 
 namespace InvestControl.Application.Services
 {
@@ -29,11 +30,11 @@ namespace InvestControl.Application.Services
                 .ToList();
         }
 
-        private IList<CustodiaDto> CalcularImpostoAnual(int ano)
+        private IEnumerable<CustodiaDto> CalcularImpostoAnual(int ano)
         {
             var transacoes = ObterTransacoes(ano);
 
-            var lucroPrejuizoLista = new List<CustodiaDto>();
+            var custodia = new List<CustodiaDto>();
 
             foreach (var transacoesPorAtivo in transacoes.GroupBy(t => t.CodigoAtivo.TrimEnd('F')))
             {
@@ -60,7 +61,7 @@ namespace InvestControl.Application.Services
                     ? transacoesPorAtivo.FirstOrDefault()?.TipoCategoria.ToString()
                     : "Sem Categoria";
 
-                lucroPrejuizoLista.Add(new CustodiaDto
+                custodia.Add(new CustodiaDto
                 {
                     Categoria = categoria,
                     CodigoAtivo = transacoesPorAtivo.Key,
@@ -70,13 +71,53 @@ namespace InvestControl.Application.Services
                 });
             }
 
-            return lucroPrejuizoLista
+            return custodia
                 .OrderBy(l => l.Categoria)
                 .ThenBy(l => l.CodigoAtivo)
                 .ToList();
         }
+        
+        public IList<ImpostoMensalDto> CalcularImpostoAPagarMensal(int ano)
+        {
+            var lucroOuPrejuizoAnual = new List<ImpostoMensalDto>();
+            var lucrosOuPrejuizosMensais = CalcularLucroOuPrejuizoMensal(ano);
+            foreach (var lucroOuPrejuizoPorCategoria in lucrosOuPrejuizosMensais.GroupBy(x => x.Categoria))
+            {
+                const decimal valorMinimoParaGerarDarf = 10;
+                decimal percentual = 15;
+                if (lucroOuPrejuizoPorCategoria.Key.Equals(TipoCategoria.FundosImobiliarios.GetDescription()))
+                {
+                    percentual = 20;
+                }
+                
+                decimal totalLucroOuPrejuizo = 0;
+                decimal impostoAPagar = 0;
+                
+                foreach (var lucroOuPrejuizoMensal in lucroOuPrejuizoPorCategoria)
+                {
+                    totalLucroOuPrejuizo += lucroOuPrejuizoMensal.Total;
+                    if(lucroOuPrejuizoMensal.Total > 0 && totalLucroOuPrejuizo >= 0)
+                    {
+                        impostoAPagar += (lucroOuPrejuizoMensal.Total * percentual) / 100;;
+                        if (impostoAPagar >= valorMinimoParaGerarDarf)
+                        {
+                            lucroOuPrejuizoAnual.Add(new ImpostoMensalDto()
+                            {
+                                Mês = lucroOuPrejuizoMensal.Mes,
+                                Categoria = lucroOuPrejuizoMensal.Categoria,
+                                Total = totalLucroOuPrejuizo,
+                                Percentual = percentual,
+                                ImpostoAPagar = impostoAPagar
+                            });
+                        }
+                        totalLucroOuPrejuizo = 0;
+                    }
+                }
+            }
+            return lucroOuPrejuizoAnual;
+        }
 
-        public IList<LucroPrejuizoDto> CalcularLucroEPrejuizoMensal(int ano)
+        public IList<LucroPrejuizoDto> CalcularLucroOuPrejuizoMensal(int ano)
         {
             var transacoes = ObterTransacoes(ano);
             var lucrosEPrejuizos = MontarListaDeLucrosEPrejuizosMensais(transacoes);

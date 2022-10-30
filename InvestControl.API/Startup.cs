@@ -37,6 +37,7 @@ namespace InvestControl.API
             services.AddScoped<ITransacaoRepository, TransacaoRepository>();
             services.AddScoped<IEventoRepository, EventoRepository>();
             services.AddScoped<IUploadInformationsService, UploadInformationsService>();
+            services.AddScoped<IUploadB3MovimentacaoService, UploadB3MovimentacaoService>();
             
             services.AddSwaggerGen(c =>
             {
