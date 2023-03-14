@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace InvestControl.API.Controllers
 {
     [ApiController]
-    [Route("api/imposto-de-renda")]
-    public class ImpostoDeRendaController : ControllerBase
+    [Route("api/income-tax")]
+    public class IncomeTaxController : ControllerBase
     {
         private readonly IImpostoDeRendaService _impostoDeRendaService;
 
-        public ImpostoDeRendaController(IImpostoDeRendaService impostoDeRendaService)
+        public IncomeTaxController(IImpostoDeRendaService impostoDeRendaService)
         {
             _impostoDeRendaService = impostoDeRendaService;
         }

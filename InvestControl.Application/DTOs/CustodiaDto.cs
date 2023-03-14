@@ -4,8 +4,8 @@
     {
         public string Categoria { get; set; }
         public string CodigoAtivo { get; set; }
-        public decimal Quantidade { get; set; }
-        public decimal PrecoMedio { get; set; }
-        public decimal ValorTotal { get; set; }
+        public string Quantidade { get; set; }
+        public string PrecoMedio { get; set; }
+        public string ValorTotal { get; set; }
     }
 }

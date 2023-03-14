@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using InvestControl.Application.Services.Interfaces;
+using InvestControl.Core.Extensions;
 using InvestControl.Domain.Entity;
 using InvestControl.Domain.Entity.Enums;
 using InvestControl.Domain.Helpers;
@@ -26,7 +27,7 @@ namespace InvestControl.Application.Services
         public IList<CustodiaDto> CalcularCustodiaAnual(int ano)
         {
             return CalcularImpostoAnual(ano)
-                .Where(x => x.Quantidade > 0)
+                .Where(x => Convert.ToDecimal(x.Quantidade) > 0)
                 .ToList();
         }
 
@@ -58,16 +59,16 @@ namespace InvestControl.Application.Services
                 }
 
                 var categoria = transacoesPorAtivo.Any()
-                    ? transacoesPorAtivo.FirstOrDefault()?.TipoCategoria.ToString()
+                    ? transacoesPorAtivo.FirstOrDefault()?.TipoCategoria.GetDescription()
                     : "Sem Categoria";
 
                 custodia.Add(new CustodiaDto
                 {
                     Categoria = categoria,
                     CodigoAtivo = transacoesPorAtivo.Key,
-                    Quantidade = quantidadeTotal,
-                    ValorTotal = valorTotal,
-                    PrecoMedio = valorPrecoMedio,
+                    Quantidade = quantidadeTotal.ToStringPtBr(),
+                    ValorTotal = valorTotal.ToMoneyStringPtBr(),
+                    PrecoMedio = valorPrecoMedio.ToMoneyStringPtBr(),
                 });
             }
 
@@ -236,7 +237,7 @@ namespace InvestControl.Application.Services
                     var totalVenda = transacoesDoEvento.Where(x => x.TipoOperacao == TipoOperacao.Venda)
                         .Sum(x => x.Quantidade);
                     var totalAtual = totalCompra - totalVenda;
-                    var totalNovosPapeis = (int)(totalAtual / evento.FatorBase) * evento.FatorGanho;
+                    var totalNovosPapeis = Convert.ToInt64((totalAtual / evento.FatorBase)) * evento.FatorGanho;
                     var transacaoDeBonificacao = new Transacao()
                     {
                         DataOperacao = evento.Data,

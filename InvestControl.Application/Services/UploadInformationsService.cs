@@ -6,6 +6,7 @@ using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
 using InvestControl.Application.Services.Interfaces;
+using InvestControl.Domain.Attributes;
 using InvestControl.Domain.Entity;
 using InvestControl.Domain.Entity.Csv;
 using InvestControl.Domain.Entity.Enums;
@@ -105,6 +106,7 @@ namespace InvestControl.Application.Services
                         PrecoUnitario = ConvertToDecimal(transacaoCsv.PrecoUnitario),
                         Corretora = corretora
                     };
+
                     _context.Add(transacao);
                 }
 
@@ -131,25 +133,25 @@ namespace InvestControl.Application.Services
 
         private TipoCategoria GetTipoCategoria(string categoria)
         {
-            if (categoria.Equals(TipoCategoria.FundosImobiliarios.GetDescription()))
+            if (categoria.Equals(TipoCategoria.FundosImobiliarios.GetCsvNameColumn()))
                 return TipoCategoria.FundosImobiliarios;
 
-            if (categoria.Equals(TipoCategoria.Acao.GetDescription()))
+            if (categoria.Equals(TipoCategoria.Acao.GetCsvNameColumn()))
                 return TipoCategoria.Acao;
 
-            if (categoria.Equals(TipoCategoria.Bdr.GetDescription()))
+            if (categoria.Equals(TipoCategoria.Bdr.GetCsvNameColumn()))
                 return TipoCategoria.Bdr;
 
-            if (categoria.Equals(TipoCategoria.Etf.GetDescription()))
+            if (categoria.Equals(TipoCategoria.Etf.GetCsvNameColumn()))
                 return TipoCategoria.Etf;
 
-            if (categoria.Equals(TipoCategoria.EtfExterior.GetDescription()))
+            if (categoria.Equals(TipoCategoria.EtfExterior.GetCsvNameColumn()))
                 return TipoCategoria.EtfExterior;
 
-            if (categoria.Equals(TipoCategoria.Stocks.GetDescription()))
+            if (categoria.Equals(TipoCategoria.Stocks.GetCsvNameColumn()))
                 return TipoCategoria.Stocks;
             
-            if (categoria.Equals(TipoCategoria.TesouroDireto.GetDescription()))
+            if (categoria.Equals(TipoCategoria.TesouroDireto.GetCsvNameColumn()))
                 return TipoCategoria.TesouroDireto;
 
             throw new ArgumentException("Tipo de categoria inválida");
@@ -168,7 +170,8 @@ namespace InvestControl.Application.Services
 
         private decimal ConvertToDecimal(string valor)
         {
-            return decimal.Parse(valor.Replace(".", string.Empty).Replace(",", "."));
+            // var valueFormated = valor.Replace(".", "").Replace(",", ".");
+            return decimal.Parse(valor);
         }
     }
 }

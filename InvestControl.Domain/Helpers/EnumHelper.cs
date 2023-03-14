@@ -1,5 +1,8 @@
+
 using System;
 using System.ComponentModel;
+using System.Reflection;
+using InvestControl.Domain.Attributes;
 
 namespace InvestControl.Domain.Helpers
 {
@@ -24,6 +27,19 @@ namespace InvestControl.Domain.Helpers
             }
 
             return description;
+        }
+        
+        public static string GetCsvNameColumn(this System.Enum Value)
+        {
+            Type Type = Value.GetType();
+
+            FieldInfo FieldInfo = Type.GetField(Value.ToString());
+
+            CsvNameAttribute Attribute = FieldInfo.GetCustomAttribute(
+                typeof(CsvNameAttribute)
+            ) as CsvNameAttribute;
+
+            return Attribute.ColumnName;
         }
     }
 }

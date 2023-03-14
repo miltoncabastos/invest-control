@@ -7,7 +7,7 @@ namespace InvestControl.API.Controllers
 {
     [ApiController]
     [Route("api/dados")]
-    public class DadosController : ControllerBase
+    public class DataController : ControllerBase
     {
         [HttpGet]
         [Route("obter-corretoras")]
