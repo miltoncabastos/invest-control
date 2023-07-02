@@ -33,7 +33,7 @@ namespace InvestControl.Application.Services
             };
 
             var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var index = currentDirectory.IndexOf("/InvestControl.API");
+            var index = currentDirectory.IndexOf("\\InvestControl.API");
             _rootDirectory = currentDirectory.Substring(0, index);
         }
 
